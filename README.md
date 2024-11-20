@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
@@ -97,3 +98,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+=======
+# coreserve-backend
+CoreServe API is a powerful backend solution designed to support diverse business needs. Built with NestJS, it provides modular and scalable services to manage posts, clients, ads, media, and dynamic pages. Ideal for powering websites, business applications, and content management systems.
+>>>>>>> 24b4b68d4d8157e44b6061eaf25f8abd7706f3aa
