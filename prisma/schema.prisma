@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+// ORM => orm
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @ default(autoincrement())
+  email     String   @unique
+  password  String   // consider hashing
+  name      String 
+  profile   Profile?
+  role      String   @default("Admin") 
+  createdAt DateTime @default(now())
+}
+
+model Profile {
+  id        Int    @id @default(autoincrement())
+  bio       String? 
+  avatar    String
+  userId    Int    @unique
+  user      User   @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Slider {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String 
+  active      Boolean  @default(true) 
+  slides      Slide[]  // One-to-many relationship
+}
+
+model Slide {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String 
+  rank        Int      @default(0)
+  sliderId    Int 
+  slider      Slider   @relation(fields: [sliderId], references: [id]) 
+  active      Boolean  @default(true) 
+  link        String?  // Optional link field
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String 
+  image       String 
+  price       Float?   // Optional price field
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String 
+  type        String 
+  image       String 
+  price       Float?   // Optional price field
+  stock       Int?     // Optional stock field
+}
+
+model Post {
+  id          Int       @id @default(autoincrement()) 
+  title       String 
+  content     String 
+  description String 
+  views       Int 
+  category    String
+  images      PostImage[]  
+  createdAt   DateTime  @default(now()) 
+  status      String    @default("draft") // Optional status field
+}
+
+model PostImage {
+  id          Int      @id @default(autoincrement()) 
+  image       String 
+  type        String   @default("String")
+  title       String 
+  description String  
+  postId      Int
+  post        Post     @relation(fields: [postId], references: [id]) 
+}
+
+model ContentMsg {
+  id        Int      @id @default(autoincrement()) 
+  title     String 
+  name      String 
+  email     String 
+  number    String
+  prefer    String  
+  createdAt DateTime @default(now()) // Optional timestamp
+  read    Boolean @default(false) 
+
+}
+model File {
+  id  String @id @default( uuid()) 
+  type        String   @default("String")
+  title       String 
+  description String 
+  url         String?
+  public      Boolean     @default(true)
+  temp     Boolean   @default(true) 
+}
