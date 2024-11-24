@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UserResponseDto } from './dto';
 
 @Injectable()
 export class AuthService {
@@ -50,6 +51,10 @@ export class AuthService {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Invalid credentials');
     }
+
+    // Generate a JWT token
+    const token = this.jwtService.sign({ id: user.id, email: user.email });
+    return new UserResponseDto(user.id, user.name, user.email, token);
 
    
   }

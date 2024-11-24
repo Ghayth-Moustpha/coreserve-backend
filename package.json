@@ -24,6 +24,7 @@
     "@automapper/core": "^8.8.1",
     "@automapper/nestjs": "^8.8.1",
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/passport": "^10.0.3",
@@ -38,9 +39,11 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "prisma": "^5.21.1",
-    "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
-  },  
+    "reflect-metadata": "^0.2.2",
+    "response-time": "^2.3.3",
+    "rxjs": "^7.8.1",
+    "yaml": "^2.6.1"
+  },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
