@@ -4,7 +4,6 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -35,10 +34,7 @@ export class AuthService {
       },
     });
 
-    return {
-      user: this.excludePassword(user), // Return user without password
-      token: this.generateToken(user),
-    };
+  
   }
 
   // Login user
@@ -55,10 +51,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return {
-      user: this.excludePassword(user), // Return user without password
-      token: this.generateToken(user),
-    };
+   
   }
 
   // Validate user from JWT
@@ -78,9 +71,5 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  // Helper function to exclude password from user object
-  private excludePassword(user: User) {
-    const { password, ...result } = user; // Destructure to exclude password
-    return result; // Return the user object without password
-  }
+
 }
