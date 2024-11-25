@@ -97,12 +97,4 @@ model ContentMsg {
   read    Boolean @default(false) 
 
 }
-model File {
-  id  String @id @default( uuid()) 
-  type        String   @default("String")
-  title       String 
-  description String 
-  url         String?
-  public      Boolean     @default(true)
-  temp     Boolean   @default(true) 
-}
+ 
