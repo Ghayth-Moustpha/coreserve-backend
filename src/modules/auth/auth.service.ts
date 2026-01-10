@@ -16,27 +16,48 @@ export class AuthService {
   // Register a new user
   async register(registerUserDto: RegisterUserDto) {
     const { name, email, password } = registerUserDto;
-
+  
+    // Check if the user already exists
     const existingUser = await this.prisma.user.findUnique({
       where: { email },
     });
-
+  
     if (existingUser) {
       throw new UnauthorizedException('User already exists');
     }
-    
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await this.prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-        name,
-      },
-    });
-
   
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+  
+    // Create the user and profile in a transaction
+    const user = await this.prisma.$transaction(async (prisma) => {
+      const newUser = await prisma.user.create({
+        data: {
+          email,
+          password: hashedPassword,
+          name,
+        },
+      });
+  
+      await prisma.profile.create({
+        data: {
+          bio: null,
+          avatar: null,
+          user: {
+            connect: { id: newUser.id }, // Link the profile to the newly created user
+          },
+        },
+      });
+  
+      return newUser;
+    });
+  
+    // Generate a JWT token
+    const token = this.jwtService.sign({ id: user.id, email: user.email });
+  
+    return new UserResponseDto(user.id, user.name, user.email, token);
   }
+  
 
   // Login user
   async login(loginUserDto: LoginUserDto) {
